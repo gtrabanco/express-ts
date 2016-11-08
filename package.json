@@ -46,6 +46,9 @@
     "@types/node": "^6.0.46",
     "@types/serve-static": "^1.7.31",
     "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-develop-server": "^0.5.2",
+    "gulp-mocha": "^3.0.1",
     "gulp-typescript": "^3.1.2",
     "typescript": "^2.0.8",
     "typings": "^2.0.0"
