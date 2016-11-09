@@ -5,7 +5,10 @@
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as path from "path";
+import logger = require("morgan");
+
 import * as indexRoute from "./routes/index";
+import * as config from "../config/index";
 
 /**
  * The server.
@@ -65,12 +68,6 @@ class Server {
 
         //use router middleware
         this.app.use(router);
-
-        /*
-         // view engine setup
-         app.set('views', path.join(__dirname, 'views'));
-         app.set('view engine', 'ejs');
-         */
     }
 
 
@@ -82,9 +79,34 @@ class Server {
      * @return void
      */
     private config():void {
-        this.app.set('views', path.join(__dirname, 'views'));
-        this.app.set('views engine', npm_package_config_view_engine)
+        //configure jade
+        this.app.set("views", path.join(__dirname, "views"));
+        this.app.set("view engine", "ejs");
+
+        //mount logger
+        this.app.use(logger("dev"));
+
+        //Configuration
+        this.app.set("config", config);
+
+        //mount json form parser
+        this.app.use(bodyParser.json());
+
+        //mount query string parser
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+
+        //add static paths
+        this.app.use(express.static(path.join(__dirname, "public")));
+        this.app.use(express.static(path.join(__dirname, "bower_components")));
+
+        // catch 404 and forward to error handler
+        this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+            var error = new Error("Not Found");
+            err.status = 404;
+            next(err);
+        });
     }
-
-
 }
+
+var server = Server.bootstrap();
+export = server.app;

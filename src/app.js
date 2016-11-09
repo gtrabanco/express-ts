@@ -1,8 +1,11 @@
 /// <reference path="_all.d.ts" />
 "use strict";
+var bodyParser = require("body-parser");
 var express = require("express");
 var path = require("path");
+var logger = require("morgan");
 var indexRoute = require("./routes/index");
+var config = require("../config/index");
 /**
  * The server.
  *
@@ -51,11 +54,6 @@ var Server = (function () {
         router.get("/", index.index.bind(index.index));
         //use router middleware
         this.app.use(router);
-        /*
-         // view engine setup
-         app.set('views', path.join(__dirname, 'views'));
-         app.set('view engine', 'ejs');
-         */
     };
     /**
      * Configure app
@@ -65,9 +63,28 @@ var Server = (function () {
      * @return void
      */
     Server.prototype.config = function () {
-        this.app.set('views', path.join(__dirname, 'views'));
-        this.app.set('views engine', npm_package_config_view_engine);
+        //configure jade
+        this.app.set("views", path.join(__dirname, "views"));
+        this.app.set("view engine", "ejs");
+        //mount logger
+        this.app.use(logger("dev"));
+        //Configuration
+        this.app.set("config", config);
+        //mount json form parser
+        this.app.use(bodyParser.json());
+        //mount query string parser
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        //add static paths
+        this.app.use(express.static(path.join(__dirname, "public")));
+        this.app.use(express.static(path.join(__dirname, "bower_components")));
+        // catch 404 and forward to error handler
+        this.app.use(function (err, req, res, next) {
+            var error = new Error("Not Found");
+            err.status = 404;
+            next(err);
+        });
     };
     return Server;
 }());
-//# sourceMappingURL=app.js.map
+var server = Server.bootstrap();
+module.exports = server.app;

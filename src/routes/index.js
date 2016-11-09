@@ -14,4 +14,3 @@ var Route;
     Route.Index = Index;
 })(Route || (Route = {}));
 module.exports = Route;
-//# sourceMappingURL=index.js.map
