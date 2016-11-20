@@ -1,6 +1,6 @@
 {
-  "name": "req-ts",
-  "version": "0.1.0-alpha.1",
+  "name": "express-ts",
+  "version": "0.1.0",
   "description": "Shorten URL's code for rqe.es",
   "main": "bin/www",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/gtrabanco/rqe.git"
+    "url": "git://github.com/gtrabanco/express-ts.git"
   },
   "keywords": [
     "short",
@@ -19,9 +19,9 @@
   "author": "Gabriel Trabanco Llano",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gtrabanco/rqe/issues"
+    "url": "https://github.com/gtrabanco/express-ts/issues"
   },
-  "homepage": "https://github.com/gtrabanco/rqe#readme",
+  "homepage": "https://github.com/gtrabanco/express-ts#readme",
   "engines": {
     "node": "~6.9.1"
   },
